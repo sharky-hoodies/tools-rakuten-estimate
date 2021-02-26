@@ -1,0 +1,392 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=SHIFT-JS">
+	<title>ポリカ測り販売表</title>
+	<script type="text/javascript">
+	function calcu(form)
+	{
+		//	基本データ	//
+		var he=parseFloat(form.height.value);	//	縦長さ
+		var wi=parseFloat(form.wide.value);		//	横長さ
+		var num=parseFloat(form.number.value);	//	数量
+		var thick=parseFloat(form.thick.value);	//	板厚
+		//var col=parseFloat(form.color.value);	//	カラー種類
+		var len=he+wi;	//	寸法縦+寸法横
+
+		//****** 材料費計算 Start ******//
+		//	Net掛け率	//
+		var R_net=1.6;
+
+		//	材料単価	//
+		var R_mat;
+		//ここにカラー選択
+
+		//	材料費	//
+		var mat_cost;
+		if (he*wi/1000000 < 0.02){
+			mat_cost=thick*20000*1.2*R_mat*num/1000000;
+		}else{
+			mat_cost=thick*he*wi*1.2*R_mat*num/1000000;
+		}
+
+		//	運賃	//
+		var fare;
+		if (wi >= 3000 && num > 0){
+			fare = 5000;
+		}else if (num > 0){
+			fare = 320;
+		}else{
+			fare = 0;
+		}
+
+		//****** 材料費計算 End ******//
+
+		//****** 注文内容 ******//
+		var itemname = "【オーダー】オーダーポリカーボネート板";
+		document.getElementById('choice1').value = itemname;
+
+		var kakou = "【サイズ】縦: "+he+"mm 横: "+wi+"mm";
+		document.getElementById('choice2').value = kakou;
+
+		//	document.getElementById('choice3').value = bord_type;
+
+		var itaatu = "【板厚】板厚: "+thick+"mm";
+		document.getElementById('choice4').value = itaatu;
+
+		var kazu = "【数量】"+num+"個";
+		document.getElementById('choice5').value = kazu;
+
+		var kakaku_val;
+
+		if (num>0){
+			/*		kakaku_val = Math.ceil((R_net*mat_cost+fare+320)*1.15*1.10/100)*100+3000;
+		}else if (num>0){ */
+		kakaku_val = Math.ceil((R_net*mat_cost+fare)*1.15*1.10/100)*100+3000;
+	}else {
+		kakaku_val = 0;
+	}
+
+	var kakaku = "【価格】"+kakaku_val+" 円（税込）";
+	document.getElementById('choice6').value = kakaku;
+
+	if (kakaku_val > 0){
+		form.estimate.value = itemname+"\n"+kakou+"\n"+"\n"+itaatu+"\n"+kazu+"\n\n"+kakaku;
+		document.getElementById('submit_order_val').value = kakaku_val;
+		document.getElementById('units').value = kakaku_val/100;
+	}else {
+		form.estimate.value = "";
+		document.getElementById('submit_order_val').value = 0;
+		document.getElementById('choice1').value = "";
+		document.getElementById('choice2').value = "";
+		//		document.getElementById('choice3').value = "";
+		document.getElementById('choice4').value = "";
+		document.getElementById('choice5').value = "";
+		document.getElementById('choice6').value = "";
+		document.getElementById('units').value = 0;
+	}
+	// ▲▲▲注文内容：ここまで▲▲▲ //
+}
+
+
+//-------------------------//
+//    カラー/板厚          //
+//-------------------------//
+
+function def_col(form)
+{
+	//var Col=parseInt(form.color.value);
+
+	var len=form.thick.length;
+	i=0;
+	for (i=len; i>0; i--){
+	form.thick.options[i++]=new Option(" 0.0",0.0);
+	form.thick.options[i++]=new Option(" 2.0",2.0);
+	form.thick.options[i++]=new Option(" 3.0",3.0);
+	form.thick.options[i++]=new Option(" 4.0",4.0);
+	form.thick.options[i++]=new Option(" 5.0",5.0);
+	form.thick.options[i++]=new Option(" 6.0",6.0);
+	form.thick.options[i++]=new Option(" 8.0",8.0);
+	form.thick.options[i++]=new Option("10.0",10.0);
+}
+chk_len_cal(form);
+}
+
+//-------------------------//
+//    寸法チェック         //
+//-------------------------//
+
+function chk_len_cal(form)
+{
+	var he=parseFloat(form.height.value);		//	縦長さ
+	var wi=parseFloat(form.wide.value);			//	横長さ
+	var num=parseFloat(form.number.value);		//	数量
+	var color=parseFloat(form.color.value);	// カラー
+	var thick=parseFloat(form.thick.value);	//	板厚
+
+	//------縦長さエラーチェック------//
+	if(!(he>=100 && he <=2000) && (color<8 || color==14)){
+		alert("範囲内で指定して下さい");
+		form.height.value=500;
+		form.number.value=0;
+
+	}else if(!(he>=100 && he <=1000) && (color==14) && (thick==2.0)){
+		alert("範囲内で指定して下さい");
+		form.height.value=500;
+		form.number.value=0;
+
+	}else if(!(he>=100 && he <=1250) &&(color>=8 && color<=13)){
+		alert("範囲内で指定して下さい");
+		form.height.value=500;
+		form.number.value=0;
+
+	}else if(he%1>0.0){
+		alert("少数点以下は入力できません");
+		form.height.value=500;
+		form.number.value=0;
+
+	}else if(!(he>=100 && he <=1000) && (color==1 || color==4 || color==5) && thick==2.0){
+		alert("範囲内で指定して下さい");
+		form.height.value=500;
+		form.number.value=0;
+
+	}
+
+
+	//------横長さエラーチェック------//
+	else if(!(wi>=100 && wi<=3000)){
+		alert("範囲内で指定して下さい");
+		form.wide.value=500;
+		form.number.value=0;
+
+	}else if(!(wi>=100 && wi<=2000) && (color==1) && (thick==2.0)){
+		alert("範囲内で指定して下さい");
+		form.wide.value=500;
+		form.number.value=0;
+
+	}else if(wi%1>0.0){
+		alert("少数点以下は入力できません");
+		form.wide.value=500;
+		form.number.value=0;
+
+	}
+
+
+	//------サイズチェック------//
+	else if((color==14) && (thick==2.0) && (wi*he/1000000<0.2)){
+		alert("縦×横は0.2㎡以上になります。");
+		form.height.value=500;
+		form.wide.value=500;
+		form.number.value=0;
+
+	}else if((he>=0 && wi>=0) && (he*wi/1000000<0.05)){
+		alert("縦×横は0.05㎡以上になります。");
+		form.height.value=500;
+		form.wide.value=500;
+		form.number.value=0;
+
+	}
+
+	//------数量チェック------//
+	else if(!(num>=0)){
+		alert("1以上で入力して下さい");
+		form.number.value=0;
+
+	}else if(num%1>0.0){
+		alert("整数で入力して下さい");
+		form.number.value=0;
+
+	}
+
+	form.estimate.value="";
+	document.getElementById('submit_order_val').value = 0;
+	document.getElementById('choice1').value = "";
+	document.getElementById('choice2').value = "";
+	//	document.getElementById('choice3').value = "";
+	document.getElementById('choice4').value = "";
+	document.getElementById('choice5').value = "";
+	document.getElementById('choice6').value = "";
+	document.getElementById('units').value = 0;
+
+}
+
+//**********見積もり内容をクリア**********//
+
+function board_clear(form){
+	form.estimate.value="";
+	document.getElementById('submit_order_val').value = 0;
+	document.getElementById('choice1').value = "";
+	document.getElementById('choice2').value = "";
+	//	document.getElementById('choice3').value = "";
+	document.getElementById('choice4').value = "";
+	document.getElementById('choice5').value = "";
+	document.getElementById('choice6').value = "";
+	document.getElementById('units').value = 0;
+}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<link rel="stylesheet" type="text/css" href="./css/polyca.css" />
+
+<script>
+
+$(function(){
+
+	//.accordion1の中のp要素がクリックされたら
+	$('.accordion1 p').click(function(){
+
+		//クリックされた.accordion1の中のp要素に隣接するul要素が開いたり閉じたりする。
+		$(this).next('ul').slideToggle();
+
+	});
+});
+
+$(function(){
+
+	//.accordion1の中のp要素がクリックされたら
+	$('.accordion2 p').click(function(){
+
+		//クリックされた.accordion1の中のp要素に隣接するul要素が開いたり閉じたりする。
+		$(this).next('ul').slideToggle();
+
+	});
+});
+</script>
+
+<script type="text/javascript">
+function msgSubmit()
+{
+	var act_units = document.order_sht.number.value;
+	var order_val = document.order.submit_order_val.value;
+	var units = document.order.units.value;
+
+	flag = confirm("ご購入金額："+order_val+"円（税込み）\n\n※システムの都合上、買い物かごの中の商品単価は100円、注文数量が"+units+"と表示されます。こちらは購入金額の計算に必要になりますので、変更されないようにお願いいたします。");
+	return flag;
+}
+</script>
+
+<script type="text/template" name="rat" id="ratAccountId" value="1"></script> <script type="text/template" name="rat" id="ratServiceId" value="5"></script> <script type="text/template" name="rat" id="ratSiteSection" value="gold"></script> <script type="text/template" name="rat" id="ratAdobeSiteSection" value="shop"></script> <script type="text/template" name="rat" id="ratPageType" value="gold"></script> <script type="text/javascript" src="https://r.r10s.jp/com/rat/js/rat-cdn.js" async defer></script></head>
+<body>
+	<div style="font-size:0.9em; line-height:1.5em;" id="acrylbar">
+
+		<form name="order_sht" id="order_sht">
+
+			<div style="margin:0 0 10px 0; font-size:1.5em; font-weight:bold;">１.<span>基本寸法をご入力ください</span></div>
+			<div style="margin:0 0 50px 20px;">
+				<div style="margin-bottom:10px; color:#C00; font-size:0.9em;">最小カット寸法は縦・横長さが150mm以上、縦×横の面積が0.05㎡以上必要になります。<br />
+					※1) 2.0mmのみ最大カット寸法は1000 × 2000になります。<br />
+					※2) 2.0mmのみ最少寸法0.2㎡以上、最大カット寸法は1000 × 3000になります。</div>
+					<div style="background-color:#CCFFFF; padding:10px 0;">&nbsp;縦 <input size="15" type="text" name="height" onChange="chk_len_cal(this.form)" value="500" class="form01" /> ミリ　×　横 <input size="15" type="text" name="wide" onChange="chk_len_cal(this.form)" value="500" class="form01" /> ミリ</div>
+				</div>
+
+				<div style="margin:0 0 10px 0; font-size:1.5em; font-weight:bold;">２.<span>カラーと厚みをお選びください</span></div>
+				<div style="margin:0 0 50px 20px;">
+
+					<div style="margin-bottom:10px; background-color:#CCFFFF; padding:10px 0;" class="select_center">
+						<table border="0">
+							<tr>
+								<td>
+									<label>
+										<select size="1" name="color" onChange="def_col(this.form)" >
+											<option value="0" selected="selected">▼選択</option>
+											<option value="1">透明</option>
+											<option value="14">透明両面耐候</option>
+											<option value="2">乳半</option>
+											<option value="3">ガラス色</option>
+											<!-- <option value="4">ブロンズ</option>-->
+											<option value="5">グレー</option>
+											<option value="6">かすみ</option>
+											<!--                <option value="7">プリズム</option>-->
+											<option value="8">透明片面マット</option>
+											<!--<option value="12">ブロンズ片面マット</option>-->
+										</select>
+									</label>
+								</td>
+								<td>&nbsp;</td>
+								<td>
+									板厚
+								</td>
+								<td>
+									<label>
+										<select size="1" name="thick" onChange="chk_len_cal(this.form)">
+											<option value="0.0" selected="selected">0.0</option>
+										</select>
+									</label>
+								</td>
+								<td>
+									ミリ
+								</td>
+							</td>
+						</tr>
+					</table>
+
+				</div>
+
+			</div>
+
+			<div style="margin:0 0 10px 0; font-size:1.5em; font-weight:bold;">３.数量をご入力ください</div>
+			<div style="margin:0 0 50px 20px;">
+				<div style="background-color:#CCFFFF; padding:10px 0;">
+					&nbsp;<input size="15" type="text" name="number" value="0" onChange="chk_len_cal(this.form)" class="form01" /> 枚
+				</div>
+			</div>
+
+			<div style="margin:0 0 10px 0; font-size:1.5em; font-weight:bold;">４.注文内容のご確認</div>
+
+			<div style="margin:0 0 50px 20px;">
+				<div style="margin-bottom:10px;">
+					<input onclick="calcu(this.form)" value="　　見積もりを表示する　　" type="button" class="input_button">
+					<input onclick="board_clear(this.form)" value="　　見積もり内容をクリア　　" type="button" class="input_button">
+				</div>
+				<textarea name="estimate" id="estimate" cols="80" rows="10" readonly style="font-weight : bold;">  </textarea><br />
+				<p style="margin:10px 0; color:#F00; font-size:0.8em;">※ご注文受付後の変更はできません。今一度サイズ、カラー、仕様をご確認の上ご購入下さい。</p>
+			</div>
+		</form>
+		<form name="order" id="order" method="post" onsubmit="if(!(document.order.submit_order_val.value > 0) || !(document.order.approve.checked==true)){return false}else{return msgSubmit()}" action="https://basket.step.rakuten.co.jp/rms/mall/bs/cartadd/set" target="_parent">
+
+			<div style="margin:0 0 10px 0; font-size:1.5em; font-weight:bold;">７.ご注意事項につきまして</div>
+
+			<div style="margin:0 0 20px 20px;">
+				<div style="margin:0 0 20px 0;">
+					<ul style="list-style-type:disc; list-style-position:outside; font-size:1.2em; line-height:1.5em; margin:0 0 20px 1em; padding:0;">
+						<li>ご注文確定後のサイズ変更等はお受けできません。</li>
+						<li>お客様都合での返品や交換はお受けできませんので、サイズ等しっかりとご確認の上、ご注文下さい。</li>
+						<li>北海道・沖縄・その他離島への配送は、ご注文後に送料を変更させて頂きます。</li>
+						<li>一旦買い物カゴに商品を入れてから、再度同じ商品を追加したい場合は、元の商品を削除してから、再度正しい数量で買い物カゴに入れなおして下さい。</li>
+					</ul>
+					<div style="margin-top:10px; margin-bottom:10px;"><img src="../acrylbar/img/has_caution_pic.jpg" alt="ご注文時のご注意" /></div>
+					<div style="font-size:1.3em; margin-bottom:10px; font-weight:bold; color:#C00;">上記、注意事項を必ずご確認の上、下記にチェックを付けて下さい。</div>
+				</div>
+				<div style="background-color:#CCFFFF; padding:10px 0; font-size:1.2em;">
+					<input type="checkbox" name="approve" />
+					注意事項を確認の上、了承しました
+				</div>
+			</div>
+
+			<div style="margin:0 0 50px 20px;">
+				<p style="color:#C00;">買い物カゴ内のご注文数量を変更されますと商品代金の計算がお受けできませんので、<br />買い物カゴ内に表示されるご注文数量は変更せずにご注文頂きます様お願い申し上げます。</p>
+			</div>
+
+			<div style="margin-left:20px;">
+				<input onclick="if(!(document.order.submit_order_val.value > 0))alert(&#39;注文内容が表示されていません。&#39;); if(!(document.order.approve.checked==true))alert(&#39;注意事項の承認が必要です。&#39;);" value="　　上枠の内容で購入する　　" type="submit" id="get_button">
+			</div>
+
+
+			<input value="ES01_003_001" type="hidden" name="__event">
+			<input value="340101" type="hidden" name="shop_bid">
+			<!-- 見変更 -->  <input value="10001891" type="hidden" name="item_id">
+			<input value="0" type="hidden" name="inventory_flag">
+			<input name="submit_order_val" id="submit_order_val" type="hidden" value="0">
+			<input type="hidden" name="choice" id="choice1" value="" >
+			<input type="hidden" name="choice" id="choice2" value="" >
+			<!--  <input type="hidden" name="choice" id="choice3" value="" >-->
+			<input type="hidden" name="choice" id="choice4" value="" >
+			<input type="hidden" name="choice" id="choice5" value="" >
+			<input type="hidden" name="choice" id="choice6" value="" >
+			<input name="units" type="hidden" id="units" />
+		</form>
+
+	</div>
+	<<script type="text/javascript" src="https://r.r10s.jp/com/js/d/pa/pa3.min.js" async defer></script></body>
+	</html>

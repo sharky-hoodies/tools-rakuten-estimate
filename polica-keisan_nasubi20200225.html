@@ -1,0 +1,232 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<title>ポリカ測り販売表</title>
+</head>
+
+<body>
+	<div>
+		<!-- TODO: actionは空にしておいてる-->
+		<form name="form" id="form" method="post" onsubmit="return onSubmit()" action="" target="_parent">
+
+			<div>１.基本寸法をご入力ください</div>
+			<div>
+				<div>
+					最小カット寸法は縦・横長さが150mm以上、縦×横の面積が0.05㎡以上必要になります。<br />
+					※1) 2.0mmのみ最大カット寸法は1000 × 2000になります。<br />
+					※2) 2.0mmのみ最少寸法0.2㎡以上、最大カット寸法は1000 × 3000になります。</div>
+				<div>
+					縦<input type="text" name="height" onChange="validate(this.form)" value="500">ミリ×
+					横<input type="text" name="width" onChange="validate(this.form)" value="500">ミリ
+				</div>
+			</div>
+
+			<div>２.厚みをお選びください</div>
+			<div>
+				板厚
+				<select name="thickness" onChange="validate(this.form)">
+					<option value="">選択してください</option>
+					<option value="2.0">2.0</option>
+					<option value="3.0">3.0</option>
+					<option value="4.0">4.0</option>
+					<option value="5.0">5.0</option>
+					<option value="6.0">6.0</option>
+					<option value="8.0">8.0</option>
+					<option value="10.0">10.0</option>
+				</select>ミリ
+			</div>
+
+			<div>３.数量をご入力ください</div>
+			<div>
+				<input size="15" type="text" name="quantity" value="0" onChange="validate(this.form)"> 枚
+			</div>
+
+			<div>４.注文内容のご確認</div>
+			<div>
+				<div>
+					<input type="button" value="見積もりを表示する" onclick="calculateEstimate(this.form)">
+					<input type="button" value="見積もり内容をクリア" onclick="clearEstimate(this.form)">
+				</div>
+				<textarea name="estimate" id="estimate" cols="80" rows="10" readonly></textarea>
+				<p>※ご注文受付後の変更はできません。今一度サイズ、カラー、仕様をご確認の上ご購入下さい。</p>
+			</div>
+
+			<div>７.ご注意事項につきまして</div>
+			<div>
+				<div>
+					<ul>
+						<li>ご注文確定後のサイズ変更等はお受けできません。</li>
+						<li>お客様都合での返品や交換はお受けできませんので、サイズ等しっかりとご確認の上、ご注文下さい。</li>
+						<li>北海道・沖縄・その他離島への配送は、ご注文後に送料を変更させて頂きます。</li>
+						<li>一旦買い物カゴに商品を入れてから、再度同じ商品を追加したい場合は、元の商品を削除してから、再度正しい数量で買い物カゴに入れなおして下さい。</li>
+					</ul>
+					<div>
+						<img alt="ご注文時のご注意"
+							src="https://www.rakuten.ne.jp/gold/hyosin/acrylbar/img/has_caution_pic.jpg">
+					</div>
+					<div>上記、注意事項を必ずご確認の上、下記にチェックを付けて下さい。</div>
+				</div>
+				<div>
+					<input type="checkbox" name="approve"> 注意事項を確認の上、了承しました
+				</div>
+			</div>
+
+			<div>
+				買い物カゴ内のご注文数量を変更されますと商品代金の計算がお受けできませんので、
+				買い物カゴ内に表示されるご注文数量は変更せずにご注文頂きます様お願い申し上げます。
+			</div>
+
+			<div>
+				<input value="上枠の内容で購入する" type="submit" id="get_button">
+			</div>
+
+
+			<!-- ショップ / 商品 ID設定 -->
+			<input type="hidden" name="__event" value="ES01_003_001">
+			<input type="hidden" name="shop_bid" value="340101">
+			<!-- TODO: 初期値変更する必要あり  ITEM_ID -->
+			<input type="hidden" name="item_id" value="">
+			<input type="hidden" name="inventory_flag" value="0">
+
+			<input type="hidden" name="order_price" id="order_price" value="0">
+			<input type="hidden" name="order_unit" id="order_unit" />
+		</form>
+
+	</div>
+	<script type="text/javascript">
+		const INIT_HEIGHT = 500;	// [初期値] 縦幅
+		const INIT_WIDTH = 500;		// [初期値] 横幅
+		const INIT_QUANTITY = 0;	// [初期値] 数量
+		const UNIT_PIRCE_100 = 100;	// 買い物かごの中の商品単価(注文価格をコノ単価で割ると「数量になる」）
+
+		/**
+		 * 入力値チェック(縦横幅/数量/板厚)
+		 * @type {form}
+		 */
+		function validate(form) {
+			const height = parseFloat(form.height.value);		// 縦幅(ミリ)
+			const width = parseFloat(form.width.value);			// 横幅(ミリ)
+			const quantity = parseFloat(form.quantity.value);	// 数量
+			const thickness = parseFloat(form.thickness.value);	// 板厚(ミリ)
+
+			//------縦幅チェック------//
+			if (height > 3000 || 150 > height) {
+				alert("範囲内で指定して下さい");
+				form.height.value = INIT_HEIGHT;
+			} else if (height % 1 > 0.0) {
+				alert("整数で入力して下さい");
+				form.height.value = INIT_HEIGHT;
+			}
+			//------横幅チェック------//
+			else if (width > 3000 || 150 > width) {
+				alert("範囲内で指定して下さい");
+				form.width.value = INIT_WIDTH;
+			} else if (width % 1 > 0.0) {
+				alert("整数で入力して下さい");
+				form.width.value = INIT_WIDTH;
+			}
+			//------寸法チェック------//
+			else if (width * height / 1000000 < 0.1) {
+				alert("縦×横の寸法は0.1㎡以上に指定して下さい");
+				form.height.value = INIT_HEIGHT;
+				form.width.value = INIT_WIDTH;
+			}
+			//------数量チェック------//
+			else if (0 > quantity) {
+				alert("1以上で入力して下さい");
+				form.quantity.value = INIT_QUANTITY;
+			} else if (quantity % 1 > 0.0) {
+				alert("整数で入力して下さい");
+				form.quantity.value = INIT_QUANTITY;
+			}
+		}
+
+		/**
+		 * 「見積もりを表示する」ボタン押下
+		 * @type {form}
+		 */
+		function calculateEstimate(form) {
+
+			// 固定値
+			const R_NET = 1.6;			// Net掛け率
+			const R_MAT = 1936;			// TODO: 材料単価（カラー毎）
+			const SHIPPING_FEES = 3000  // 送料(円)
+			const TAX = 1.10			// 税率
+
+			// 入力値
+			const height = parseFloat(form.height.value);		// 縦幅(ミリ)
+			const width = parseFloat(form.width.value);			// 横幅(ミリ)
+			const quantity = parseFloat(form.quantity.value);	// 数量
+			const thickness = parseFloat(form.thickness.value);	// 板厚(ミリ)
+
+			//------材料費の算出------//
+			let mat_cost;
+			if (height * width / 1000000 < 0.02) {
+				// 縦×横の寸法が0.02㎡より小さい -> 板厚*(縦横幅0.02㎡固定)*材料単価*数量*1.2
+				mat_cost = thickness * (20000 / 1000000) * R_MAT * quantity * 1.2;
+			} else {
+				// 縦×横の寸法が0.02㎡以上 -> 板厚*(縦横幅㎡)*材料単価*数量*1.2
+				mat_cost = thickness * (height * width / 1000000) * R_MAT * quantity * 1.2;
+			}
+
+			//------価格(税込み)の算出------//
+			// 価格 -> 「(材料費 * Net掛け率 + 送料) * 税率 * 1.15」を 2桁目まで切り捨て後に + 3000円
+			const priceWithTax = Math.ceil((mat_cost * R_NET + SHIPPING_FEES) * TAX * 1.15 / 100) * 100 + 3000;
+
+			// 価格計算に失敗(または数量入力が0)した場合
+			if (priceWithTax <= 0 || isNaN(priceWithTax) || quantity == 0) {
+				form.estimate.value = "";
+				form.order_price.value = 0;
+				form.order_unit.value = 0;
+				alert('価格計算に失敗しました。入力値に誤りがあります。');
+				return;
+			}
+
+			// 見積り表示
+			form.estimate.value = `【オーダー】オーダーポリカーボネート板
+【サイズ】縦: ${height}mm 横: ${width}mm
+【板厚】板厚: ${thickness}mm
+【数量】${quantity}個
+【価格】${priceWithTax}円（税込）`;
+			// set 税込み価格
+			document.form.order_price.value = priceWithTax;
+			// set 買い物かごの中の商品数量
+			document.form.order_unit.value = priceWithTax / UNIT_PIRCE_100;
+		}
+
+		/**
+		 * 「見積もり内容をクリアする」ボタン押下
+		 */
+		function clearEstimate(form) {
+			form.estimate.value = "";
+			document.form.order_price.value = 0;
+			document.form.order_unit.value = 0;
+		}
+
+		/**
+		 * 「上記の内容で購入する」ボタン押下
+		 */
+		function onSubmit() {
+			const order_price = document.form.order_price.value;
+			const order_unit = document.form.order_unit.value;
+			const approve_checked = document.form.approve.checked;
+
+			// 見積前 or 注意事項の了承前
+			if (order_price <= 0) { alert('注文内容が表示されていません。'); return false; }
+			if (approve_checked == false) { alert('注意事項の承認が必要です。'); return false; }
+
+			const msg = `ご購入金額：${order_price}円（税込み）
+
+※システムの都合上、買い物かごの中の商品単価は${UNIT_PIRCE_100}円、注文数量が「${order_unit}」と表示されます。
+こちらは購入金額の計算に必要になりますので、変更されないようにお願いいたします。`;
+			flag = confirm(msg);
+			return flag;
+		}
+	</script>
+</body>
+
+</html>
