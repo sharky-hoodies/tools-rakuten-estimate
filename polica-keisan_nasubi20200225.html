@@ -10,93 +10,89 @@
 </head>
 
 <body>
-    <div>
-        <!-- TODO: form2つに分ける必要なくない？ -->
-        <!-- TODO: actionは空にしておいてる-->
-        <div class="order-box">
-            <h3>オーダーメイド自動計算システム</h3>
-            <p class="order-att">必要なサイズを入力していただくだけで、金額がそのままご購入金額に反映されます。</p>
-            <form name="form" id="form" method="post" onsubmit="return onSubmit()" action="" target="_parent">
+    <div class="order-box">
+        <h3>オーダーメイド自動計算システム</h3>
+        <p class="order-att">必要なサイズを入力していただくだけで、金額がそのままご購入金額に反映されます。</p>
+        <form name="form" id="form" method="post" onsubmit="return onSubmit()"
+            action="https://basket.step.rakuten.co.jp/rms/mall/bs/cartadd/set" target="_parent">
 
-                <div class="inputsize-box ordrecon">
-                    <h5>１.基本寸法をご入力ください</h5>
-                    <ul>
-                        <li>最小注文サイズは100mm × 100mm以上、縦×横の面積が0.01㎡以上必要になります。</li>
-                        <li>※1) 2.0mmのみ最大カット寸法は1000 × 2000になります。</li>
-                        <li>※2) 2.0mmのみ最少寸法0.2㎡以上、最大カット寸法は1000 × 3000になります。</li>
-                    </ul>
-                    <div class="inner-boxs">
-                        <p class="inputbox"><span>縦</span><input type="text" name="height"
-                                onChange="validate(this.form)" value="500">mm</p>
-                        <span class="kakeru">×</span>
-                        <p class="inputbox"><span>横</span><input type="text" name="width" onChange="validate(this.form)"
-                                value="500">mm</p>
-                    </div>
+            <div class="inputsize-box ordrecon">
+                <h5>１.基本寸法をご入力ください</h5>
+                <ul>
+                    <li>最小注文サイズは100mm × 100mm以上、縦×横の面積が0.01㎡以上必要になります。</li>
+                    <li>※1) 2.0mmのみ最大カット寸法は1000 × 2000になります。</li>
+                    <li>※2) 2.0mmのみ最少寸法0.2㎡以上、最大カット寸法は1000 × 3000になります。</li>
+                </ul>
+                <div class="inner-boxs">
+                    <p class="inputbox"><span>縦</span><input type="text" name="height" onChange="validate(this.form)"
+                            value="500">mm</p>
+                    <span class="kakeru">×</span>
+                    <p class="inputbox"><span>横</span><input type="text" name="width" onChange="validate(this.form)"
+                            value="500">mm</p>
+                </div>
+            </div>
+
+            <div class="inputthick-box ordrecon">
+                <h5>２.板厚をご確認ください</h5>
+                <div class="inner-boxs">
+                    <span>板厚</span>
+                    <select name="thickness" onChange="validate(this.form)">
+                        <option value="3.0">3.0</option>
+                    </select>mm
+                </div>
+            </div>
+
+            <div class="inputnum-box ordrecon">
+                <h5>３.数量をご入力ください</h5>
+                <div class="inner-boxs">
+                    <input size="15" type="text" name="input_units" value="1" onChange="validate(this.form)"> 枚
+                </div>
+            </div>
+
+            <div class="comfirm-box ordrecon">
+                <input type="button" value="見積もりを表示する" onclick="calculateEstimate(this.form)">
+                <input type="button" value="見積もり内容をクリア" onclick="clearEstimate(this.form)">
+                <textarea name="estimate" id="estimate" cols="80" rows="10" readonly></textarea>
+            </div>
+            <div class="attention-box">
+                <p>※<span class="dot-text">ご注文受付後の変更はできません</span>。今一度サイズ、カラー、仕様をご確認の上ご購入下さい。</p>
+                <p>※<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
+                <p>※ご注文確定後の<span class="dot-text">サイズ変更等はお受けできません</span></p>
+                <p>※<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
+                <p>※北海道・沖縄・その他離島への配送は、ご注文後に送料を変更させて頂きます。</p>
+                <p>一旦買い物カゴに商品を入れてから、再度同じ商品を追加したい場合は、元の商品を削除してから、再度正しい数量で買い物カゴに入れなおして下さい。</p>
+                <img alt="ご注文時のご注意" src="https://www.rakuten.ne.jp/gold/hyosin/acrylbar/img/has_caution_pic.jpg"
+                    class="att-image">
+                <p>上記、注意事項を必ずご確認の上、下記にチェックを付けて下さい。</p>
+                <div class="inner-boxs">
+                    <p class="approve-check"><input type="checkbox" name="approve">注意事項を確認の上、了承しました</p>
                 </div>
 
-                <div class="inputthick-box ordrecon">
-                    <h5>２.板厚をご確認ください</h5>
-                    <div class="inner-boxs">
-                        <span>板厚</span>
-                        <select name="thickness" onChange="validate(this.form)">
-                            <option value="3.0">3.0</option>
-                        </select>mm
-                    </div>
-                </div>
-
-                <div class="inputnum-box ordrecon">
-                    <h5>３.数量をご入力ください</h5>
-                    <div class="inner-boxs">
-                        <input size="15" type="text" name="quantity" value="0" onChange="validate(this.form)"> 枚
-                    </div>
-                </div>
-
-                <div class="comfirm-box ordrecon">
-                    <input type="button" value="見積もりを表示する" onclick="calculateEstimate(this.form)">
-                    <input type="button" value="見積もり内容をクリア" onclick="clearEstimate(this.form)">
-                    <textarea name="estimate" id="estimate" cols="80" rows="10" readonly></textarea>
-                </div>
-                <div class="attention-box">
-                    <p>※<span class="dot-text">ご注文受付後の変更はできません</span>。今一度サイズ、カラー、仕様をご確認の上ご購入下さい。</p>
-                    <p>※<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
-                    <p>※ご注文確定後の<span class="dot-text">サイズ変更等はお受けできません</span></p>
-                    <p>※<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
-                    <p>※北海道・沖縄・その他離島への配送は、ご注文後に送料を変更させて頂きます。</p>
-                    <p>一旦買い物カゴに商品を入れてから、再度同じ商品を追加したい場合は、元の商品を削除してから、再度正しい数量で買い物カゴに入れなおして下さい。</p>
-                    <img alt="ご注文時のご注意" src="https://www.rakuten.ne.jp/gold/hyosin/acrylbar/img/has_caution_pic.jpg"
-                        class="att-image">
-                    <p>上記、注意事項を必ずご確認の上、下記にチェックを付けて下さい。</p>
-                    <div class="inner-boxs">
-                        <p class="approve-check"><input type="checkbox" name="approve">注意事項を確認の上、了承しました</p>
-                    </div>
-
-                    <p>買い物カゴ内のご注文数量を変更されますと商品代金の計算がお受けできませんので、
-                        買い物カゴ内に表示される<span class="dot-text">ご注文数量は変更せずにご注文ください</span>。</p>
-                    <p class="btn-kounyu"><input value="上枠の内容で購入する" type="submit" id="get_button"></p>
-                </div><!-- END.attention-box -->
-        </div>
+                <p>買い物カゴ内のご注文数量を変更されますと商品代金の計算がお受けできませんので、
+                    買い物カゴ内に表示される<span class="dot-text">ご注文数量は変更せずにご注文ください</span>。</p>
+                <p class="btn-kounyu"><input value="上枠の内容で購入する" type="submit" id="get_button"></p>
+            </div><!-- END.attention-box -->
 
 
 
-
-
-
-        <!-- ショップ / 商品 ID設定 -->
-        <input type="hidden" name="__event" value="ES01_003_001">
-        <input type="hidden" name="shop_bid" value="340101">
-        <input type="hidden" name="item_id" value="10000365">
-        <input type="hidden" name="inventory_flag" value="0">
-
-        <input type="hidden" name="order_price" id="order_price" value="0">
-        <input type="hidden" name="order_unit" id="order_unit" />
+            <input type="hidden" name="order_price" id="order_price" value="0">
+            <!-- rat submit form data -->
+            <input type="hidden" name="__event" value="ES01_003_001">
+            <input type="hidden" name="shop_bid" value="340101">
+            <input type="hidden" name="item_id" value="10000365">
+            <input type="hidden" name="inventory_flag" value="0">
+            <input type="hidden" name="units" id="units" />
+            <input type="hidden" name="choice" id="choice1" value="">
+            <input type="hidden" name="choice" id="choice2" value="">
+            <input type="hidden" name="choice" id="choice3" value="">
+            <input type="hidden" name="choice" id="choice4" value="">
         </form>
-
     </div><!-- END.order-box -->
 
     <script type="text/javascript">
         const INIT_HEIGHT = 500;	// [初期値] 縦幅
         const INIT_WIDTH = 500;		// [初期値] 横幅
-        const INIT_QUANTITY = 0;	// [初期値] 数量
+        const INIT_UNITS = 0;	// [初期値] 数量
         const UNIT_PIRCE_100 = 100;	// 買い物かごの中の商品単価(注文価格をコノ単価で割ると「数量になる」）
 
         /**
@@ -106,7 +102,7 @@
         function validate(form) {
             const height = parseFloat(form.height.value);		// 縦幅(ミリ)
             const width = parseFloat(form.width.value);			// 横幅(ミリ)
-            const quantity = parseFloat(form.quantity.value);	// 数量
+            const input_input_units = parseFloat(form.input_units.value);	// 数量
             const thickness = parseFloat(form.thickness.value);	// 板厚(ミリ)
 
             //------縦幅チェック------//
@@ -132,12 +128,12 @@
                 form.width.value = INIT_WIDTH;
             }
             //------数量チェック------//
-            else if (0 > quantity) {
+            else if (0 > input_units) {
                 alert("1以上で入力して下さい");
-                form.quantity.value = INIT_QUANTITY;
-            } else if (quantity % 1 > 0.0) {
+                form.input_units.value = INIT_UNITS;
+            } else if (input_units % 1 > 0.0) {
                 alert("整数で入力して下さい");
-                form.quantity.value = INIT_QUANTITY;
+                form.input_units.value = INIT_UNITS;
             }
         }
 
@@ -148,50 +144,53 @@
         function calculateEstimate(form) {
 
             // 固定値
-            const R_NET = 1.6;			// Net掛け率
-            const R_MAT = 6870 / 1000000;			// 1平米あたりの材料単価 ワル 1,000,000
-            const SHIPPING_FEES = 3000  // 送料(円)
-            const TAX = 1.10			// 税率
+            const R_NET = 1;                        // Net掛け率
+            const R_MAT = 6870;                     // 1平米あたりの材料単価
+            const R_MAT_P_BIL = R_MAT / 1000000;    // 1平米あたりの材料単価 ワル 1,000,000
+            const SHIPPING_FEES = 3000              // 送料(円)
+            const TAX = 1.10                        // 税率
 
             // 入力値
             const height = parseFloat(form.height.value);		// 縦幅(ミリ)
             const width = parseFloat(form.width.value);			// 横幅(ミリ)
-            const quantity = parseFloat(form.quantity.value);	// 数量
             const thickness = parseFloat(form.thickness.value);	// 板厚(ミリ)
+            const input_units = parseFloat(form.input_units.value);	// 数量
 
             //------材料費の算出------//
-            let mat_cost;
-            if (height * width / 1000000 < 0.01) {
-                // 縦×横の寸法が0.01㎡より小さい -> 板厚*(縦横幅0.01㎡固定)*材料単価*数量*1.2
-                mat_cost = thickness * (10000 / 1000000) * R_MAT * quantity * 1.2;
-            } else {
-                // 縦×横の寸法が0.02㎡以上 -> 板厚*(縦横幅㎡)*材料単価*数量*1.2
-                mat_cost = thickness * (height * width / 1000000) * R_MAT * quantity * 1.2;
-            }
+            // 板厚*(縦横幅㎡)*材料単価*数量
+            const mat_cost = (height * width) * R_MAT_P_BIL * input_units;
 
             //------価格(税込み)の算出------//
-            // 価格 -> 「(材料費 * Net掛け率 + 送料) * 税率 * 1.15」を 2桁目まで切り捨て後に + 3000円
-            const priceWithTax = Math.ceil((mat_cost * R_NET + SHIPPING_FEES) * TAX * 1.15 / 100) * 100 + 3000;
+            // 価格 -> 材料費 * Net掛け率 * 税率 (100円単位で繰り上げ)
+            const priceWithTax = Math.ceil(mat_cost * R_NET * TAX / UNIT_PIRCE_100) * UNIT_PIRCE_100;
 
             // 価格計算に失敗(または数量入力が0)した場合
-            if (priceWithTax <= 0 || isNaN(priceWithTax) || quantity == 0) {
+            if (priceWithTax <= 0 || isNaN(priceWithTax) || input_units == 0) {
                 form.estimate.value = "";
                 form.order_price.value = 0;
-                form.order_unit.value = 0;
+                form.units.value = 0;
                 alert('価格計算に失敗しました。入力値に誤りがあります。');
                 return;
             }
 
             // 見積り表示
-            form.estimate.value = `【オーダー】オーダーポリカーボネート板
-					【サイズ】縦: ${height}mm 横: ${width}mm
-					【板厚】板厚: ${thickness}mm
-					【数量】${quantity}枚
-					【価格】${priceWithTax}円（税込）`;
+            const choice_str_01 = `【サイズ】縦: ${height}mm 横: ${width}mm`;
+            const choice_str_02 = `【板厚】板厚: ${thickness}mm`;
+            const choice_str_03 = `【数量】${input_units}枚`;
+            const choice_str_04 = `【価格】${priceWithTax.toLocaleString()} 円（税込）`;
+            form.estimate.value = `${choice_str_01}
+${choice_str_02}
+${choice_str_03}
+${choice_str_04}`;
+            // set 買い物カゴに表示する「商品名」に記載する情報
+            document.getElementById('choice1').value = choice_str_01;
+            document.getElementById('choice2').value = choice_str_02;
+            document.getElementById('choice3').value = choice_str_03;
+            document.getElementById('choice4').value = choice_str_04;
             // set 税込み価格
             document.form.order_price.value = priceWithTax;
             // set 買い物かごの中の商品数量
-            document.form.order_unit.value = priceWithTax / UNIT_PIRCE_100;
+            document.form.units.value = priceWithTax / UNIT_PIRCE_100;
         }
 
         /**
@@ -200,7 +199,7 @@
         function clearEstimate(form) {
             form.estimate.value = "";
             document.form.order_price.value = 0;
-            document.form.order_unit.value = 0;
+            document.form.units.value = 0;
         }
 
         /**
@@ -208,17 +207,19 @@
         */
         function onSubmit() {
             const order_price = document.form.order_price.value;
-            const order_unit = document.form.order_unit.value;
             const approve_checked = document.form.approve.checked;
 
             // 見積前 or 注意事項の了承前
             if (order_price <= 0) { alert('注文内容が表示されていません。'); return false; }
             if (approve_checked == false) { alert('注意事項の承認が必要です。'); return false; }
 
+            // 楽天へリクエストするpriceをセット(購入金額 / 100円)
+            document.form.units.value = order_price / UNIT_PIRCE_100
+
             const msg = `ご購入金額：${order_price}円（税込み）
 
-					※システムの都合上、買い物かごの中の商品単価は${UNIT_PIRCE_100}円、注文数量が「${order_unit}」と表示されます。
-					こちらは購入金額の計算に必要になりますので、変更されないようにお願いいたします。`;
+※システムの都合上、買い物かごの中の商品単価は${UNIT_PIRCE_100}円、注文数量が「${document.form.units.value}」と表示されます。
+こちらは購入金額の計算に必要になりますので、変更されないようにお願いいたします。`;
             flag = confirm(msg);
             return flag;
         }
