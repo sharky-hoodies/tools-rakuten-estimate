@@ -130,8 +130,8 @@
             const input_units = parseFloat(document.getElementById('input_units').value);  // 数量
 
             //------材料費の算出------//
-            // 板厚*(縦横幅㎡)*材料単価*数量
-            const mat_cost = (height * width) * R_MAT_P_BIL * input_units;
+            // 板厚*(縦横幅㎡)*材料単価*数量　-> 少数点切り上げ
+            const mat_cost = Math.ceil((height * width) * R_MAT_P_BIL * input_units);
 
             // 価格計算に失敗(または数量入力が0)した場合
             if (mat_cost <= 0 || isNaN(mat_cost) || input_units == 0) {
