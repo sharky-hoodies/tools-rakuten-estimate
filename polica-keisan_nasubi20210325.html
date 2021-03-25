@@ -60,11 +60,8 @@
             <p>※5.送料は一律2000円ですが、大きさや送る地域によっては別途運賃が発しすることがあります。沖縄、離島への送料はお見積りになります。</p>
         </div><!-- END.attention-box -->
 
-        <!-- <input type="hidden" name="order_price" id="order_price" value="0"> -->
         <input type="hidden" name="shop_bid" value="340101">
         <input type="hidden" name="item_id" value="10002128">
-        <!-- <input type="hidden" name="__event" value="ES01_003_001"> -->
-        <!-- <input type="hidden" name="inventory_flag" value="0"> -->
     </div><!-- END.order-box -->
 
     <script type="text/javascript">
@@ -76,10 +73,10 @@
         * 入力値チェック(縦横幅/数量/板厚)
         */
         function validate() {
-            const height = parseFloat(document.getElementById('height').value);        // 縦幅(ミリ)
-            const width = parseFloat(document.getElementById('width').value);            // 横幅(ミリ)
+            const height = parseFloat(document.getElementById('height').value);                    // 縦幅(ミリ)
+            const width = parseFloat(document.getElementById('width').value);                      // 横幅(ミリ)
             const input_input_units = parseFloat(document.getElementById('input_units').value);    // 数量
-            const thickness = parseFloat(document.getElementById('thickness').value);    // 板厚(ミリ)
+            const thickness = parseFloat(document.getElementById('thickness').value);              // 板厚(ミリ)
 
             //------縦幅チェック------//
             if (height > 3000 || 100 > height) {
