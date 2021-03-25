@@ -35,7 +35,7 @@
             <div class="inner-boxs">
                 <span>板厚</span>
                 <select id="thickness" onChange="validate()">
-                    <option value="3.0">3.0</option>
+                    <option value="TARGET_TEMPLATE_THICKNESS">TARGET_TEMPLATE_THICKNESS</option>
                 </select>mm
             </div>
         </div>
@@ -60,8 +60,6 @@
             <p>※5.送料は一律2000円ですが、大きさや送る地域によっては別途運賃が発しすることがあります。沖縄、離島への送料はお見積りになります。</p>
         </div><!-- END.attention-box -->
 
-        <input type="hidden" name="shop_bid" value="340101">
-        <input type="hidden" name="item_id" value="10002128">
     </div><!-- END.order-box -->
 
     <script type="text/javascript">
@@ -116,9 +114,9 @@
         function calculateEstimate() {
 
             // 固定値
-            const R_MAT = 6870;                     // 1平米あたりの材料単価
+            const R_MAT = TARGET_TEMPLATE_PRICE;    // 1平米あたりの材料単価
             const R_MAT_P_BIL = R_MAT / 1000000;    // 1平米あたりの材料単価 ワル 1,000,000
-            const TAX = 1                           // 税率(楽天は全て総量表示になったためGOLD側では操作不要 -> 1固定)
+            const TAX = 1.1                         // 税率(楽天は全て総量表示になったためGOLD側では操作不要 -> 1固定)
 
             // 入力値
             const height = parseFloat(document.getElementById('height').value);            // 縦幅(ミリ)
@@ -128,7 +126,7 @@
 
             //------材料費の算出------//
             // 板厚*(縦横幅㎡)*材料単価*数量　-> 少数点切り上げ
-            const mat_cost = Math.ceil((height * width) * R_MAT_P_BIL * input_units);
+            const mat_cost = Math.ceil((height * width) * TAX * R_MAT_P_BIL * input_units);
 
             // 価格計算に失敗(または数量入力が0)した場合
             if (mat_cost <= 0 || isNaN(mat_cost) || input_units == 0) {
