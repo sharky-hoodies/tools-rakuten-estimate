@@ -11,17 +11,17 @@
 
 <body>
     <div class="order-box">
-        <h3>オーダーメイド自動計算システム</h3>
-        <p class="order-att">必要なサイズを入力していただくだけで、金額がそのままご購入金額に反映されます。</p>
+        <h3>オーダーメイド計算システム</h3>
+        <p class="order-att">必要なサイズと数量をご入力いただければ、お見積もり金額が計算できます。参考としてご活用ください。</p>
         <form name="form" id="form" method="post" onsubmit="return onSubmit()" accept-charset="EUC-JP"
             action="https://basket.step.rakuten.co.jp/rms/mall/bs/cartadd/set" target="_parent">
 
             <div class="inputsize-box ordrecon">
                 <h5>１.基本寸法をご入力ください</h5>
                 <ul>
-                    <li>最小注文サイズは100mm × 100mm以上、縦×横の面積が0.01㎡以上必要になります。</li>
-                    <li>※1) 2.0mmのみ最大カット寸法は1000 × 2000になります。</li>
-                    <li>※2) 2.0mmのみ最少寸法0.2㎡以上、最大カット寸法は1000 × 3000になります。</li>
+                    <li>※1) 最小注文サイズは100mm × 100mm以上、縦×横の面積が0.01㎡以上必要になります。（交差-0mm + 2mm）</li>
+                    <li>※2) 最大サイズ以内でしかご注文できません。</li>
+                    <li>※3) 1mm単位でカットは可能ですが、鋸厚などの関係によって多少の誤差が出る場合がございます。</li>
                 </ul>
                 <div class="inner-boxs">
                     <p class="inputbox"><span>縦</span><input type="text" name="height" onChange="validate(this.form)"
@@ -55,22 +55,11 @@
                 <textarea name="estimate" id="estimate" cols="80" rows="10" readonly></textarea>
             </div>
             <div class="attention-box">
-                <p>※<span class="dot-text">ご注文受付後の変更はできません</span>。今一度サイズ、カラー、仕様をご確認の上ご購入下さい。</p>
-                <p>※<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
-                <p>※ご注文確定後の<span class="dot-text">サイズ変更等はお受けできません</span></p>
-                <p>※<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
-                <p>※北海道・沖縄・その他離島への配送は、ご注文後に送料を変更させて頂きます。</p>
-                <p>一旦買い物カゴに商品を入れてから、再度同じ商品を追加したい場合は、元の商品を削除してから、再度正しい数量で買い物カゴに入れなおして下さい。</p>
-                <img alt="ご注文時のご注意" src="https://www.rakuten.ne.jp/gold/hyosin/acrylbar/img/has_caution_pic.jpg"
-                    class="att-image">
-                <p>上記、注意事項を必ずご確認の上、下記にチェックを付けて下さい。</p>
-                <div class="inner-boxs">
-                    <p class="approve-check"><input type="checkbox" name="approve">注意事項を確認の上、了承しました</p>
-                </div>
-
-                <p>買い物カゴ内のご注文数量を変更されますと商品代金の計算がお受けできませんので、
-                    買い物カゴ内に表示される<span class="dot-text">ご注文数量は変更せずにご注文ください</span>。</p>
-                <p class="btn-kounyu"><input value="上枠の内容で購入する" type="submit" id="get_button"></p>
+                <p>※1.注文個数には<span class="dot-text">ご希望の枚数</span>をご記入ください。</p>
+                <p>※2.注文を進んでいただき、<span class="dot-text">備考欄にご希望のサイズを明記ください</span>。</p>
+                <p>※3.ご注文確定後の<span class="dot-text">サイズ変更等はお受けできません</span></p>
+                <p>※4.<span class="dot-text">お客様都合での返品や交換はお受けできません</span>ので、サイズ等しっかりとご確認の上、ご注文下さい。</p>
+                <p>※5.送料は一律2000円ですが、大きさや送る地域によっては別途運賃が発しすることがあります。沖縄、離島への送料はお見積りになります。</p>
             </div><!-- END.attention-box -->
 
 
@@ -79,7 +68,7 @@
             <!-- rat submit form data -->
             <input type="hidden" name="__event" value="ES01_003_001">
             <input type="hidden" name="shop_bid" value="340101">
-            <input type="hidden" name="item_id" value="10000365">
+            <input type="hidden" name="item_id" value="10002128">/*商品番号*/
             <input type="hidden" name="inventory_flag" value="0">
             <input type="hidden" name="units" id="units" />
             <input type="hidden" name="choice" id="choice1" value="">
