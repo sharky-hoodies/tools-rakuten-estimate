@@ -15,10 +15,13 @@
 
 ## 3. CSV -> target-items.csv
 
-- (1)型番: 商品型番はファイル名にする
-- (2)item_id: 商品の item_id(商品ページのソースから取得できる)
-- (3)購入金額: RMS 管理画面で登録した金額(今後は全て税抜きになるはず)
-- (4)板厚: アルミ商品の板厚(金額には影響しないが、表示に使用)
+- (1)商品 ID: 商品型番はファイル名にする
+- (2)横幅 MAX(mm): 入力時の validation に使用
+- (3)横幅 MIN(mm): 入力時の validation に使用
+- (4)縦幅 MAX(mm): 入力時の validation に使用
+- (5)縦幅 MIN(mm): 入力時の validation に使用
+- (6)購入金額: RMS 管理画面で登録した金額(今後は全て税抜きになるはず)
+- (7)板厚(mm): アルミ商品の板厚(金額には影響しないが、表示に使用)
 
 ### 3-1. 注意点
 
@@ -26,8 +29,12 @@
 
 ## 4. template.html
 
+- Replacer: TARGET_TEMPLATE_SIZE_W_MAX <- csv.横幅 MAX(mm)
+- Replacer: TARGET_TEMPLATE_SIZE_W_MIN <- csv.横幅 MIN(mm)
+- Replacer: TARGET_TEMPLATE_SIZE_V_MAX <- csv.縦幅 MAX(mm)
+- Replacer: TARGET_TEMPLATE_SIZE_V_MIN <- csv.縦幅 MIN(mm)
 - Replacer: TARGET_TEMPLATE_PRICE <- csv.購入金額
-- Replacer: TARGET_TEMPLATE_THICKNESS <- csv.板厚
+- Replacer: TARGET_TEMPLATE_THICKNESS <- csv.板厚(mm)
 
 ## 5. メモ
 
@@ -38,7 +45,7 @@ $ ftp -vi
 ftp> passive   -> passiveモードでないとだめらしい
 ftp> open ftp.rakuten.ne.jp 16910
 ftp> asc       -> ファイルアップはascモードで
-ftp> quite
+ftp> quit
 ```
 
 ## 99. FIXME

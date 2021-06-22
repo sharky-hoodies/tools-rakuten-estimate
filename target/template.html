@@ -79,7 +79,7 @@
             const thickness = parseFloat(document.getElementById('thickness').value);              // 板厚(ミリ)
 
             //------縦幅チェック------//
-            if (height > 3000 || 100 > height) {
+            if (height > TARGET_TEMPLATE_SIZE_V_MAX || TARGET_TEMPLATE_SIZE_V_MIN > height) {
                 alert("範囲内で指定して下さい");
                 document.getElementById('height').value = INIT_HEIGHT;
             } else if (height % 1 > 0.0) {
@@ -87,7 +87,7 @@
                 document.getElementById('height').value = INIT_HEIGHT;
             }
             //------横幅チェック------//
-            else if (width > 3000 || 100 > width) {
+            else if (width > TARGET_TEMPLATE_SIZE_W_MAX || TARGET_TEMPLATE_SIZE_W_MIN > width) {
                 alert("範囲内で指定して下さい");
                 document.getElementById('width').value = INIT_WIDTH;
             } else if (width % 1 > 0.0) {
