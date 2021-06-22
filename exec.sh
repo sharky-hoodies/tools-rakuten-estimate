@@ -1,4 +1,5 @@
 #!/bin/sh
+
 while read line; do
     # csvデータ取得
     filen=`echo -n ${line} | cut -d ',' -f 1`

@@ -13,7 +13,7 @@
 - FTP クライアントインストール済
 - 見積計算ツールは用途にあわせて作成 -> template.html
 
-## 3. CSV -> target-items.csv
+## 3. target-items.csv
 
 - (1)商品 ID: 商品型番はファイル名にする
 - (2)横幅 MAX(mm): 入力時の validation に使用
