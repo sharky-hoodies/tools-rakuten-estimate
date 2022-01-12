@@ -3,10 +3,10 @@
 while read line; do
     # csvデータ取得
     filen=`echo -n ${line} | cut -d ',' -f 1`
-    sizewmax=`echo -n ${line} | cut -d ',' -f 2`
-    sizewmin=`echo -n ${line} | cut -d ',' -f 3`
-    sizevmax=`echo -n ${line} | cut -d ',' -f 4`
-    sizevmin=`echo -n ${line} | cut -d ',' -f 5`
+    sizevmax=`echo -n ${line} | cut -d ',' -f 2`
+    sizevmin=`echo -n ${line} | cut -d ',' -f 3`
+    sizewmax=`echo -n ${line} | cut -d ',' -f 4`
+    sizewmin=`echo -n ${line} | cut -d ',' -f 5`
     price=`echo -n ${line} | cut -d ',' -f 6`
     thick=`echo -n ${line} | cut -d ',' -f 7`
     echo "${filen}, ${sizewmax}, ${sizewmin}, ${sizevmax}, ${sizevmin}, ${price}, ${thick}"

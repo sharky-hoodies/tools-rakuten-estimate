@@ -1,133 +1,145 @@
-.order-box{
-    margin:24px auto;
-    width:96%;
-    border: solid 5px #ccc;
-    padding:0 1%;
+.order-box {
+  margin: 24px auto;
+  width: 96%;
+  border: solid 5px #ccc;
+  padding: 0 1%;
+}
+.order-box input,
+.order-box select {
+  height: 40px;
+  font-size: 24px;
+  padding-left: 10px;
+}
+.order-box h3 {
+  font-weight: bold;
+  background: linear-gradient(transparent 60%, #a8c5e7 60%);
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.order-box h5 {
+  font-size: 16px;
+  margin: 16px 0 8px;
+}
+.ordrecon {
+  margin: 40px 0;
+}
+.inputsize-box ul {
+  font-size: 14px;
+  margin: 0;
+  padding: 8px 0 8px 16px;
+}
+.inputsize-box span {
+  font-weight: bold;
+  margin-right: 8px;
+}
+.inner-boxs {
+  background: #e3e3e3;
+  margin: 8px 2%;
+  padding: 16px;
+  text-align: center;
+}
+.inputbox {
+  display: inline-block;
+  width: 45%;
+  margin: 0;
+  padding: 0;
+}
+.kakeru {
+  display: inline-block;
+  width: 6%;
+  margin: 0;
+  padding: 0;
+}
+.inputthick-box select {
+  width: 40%;
+}
+.inputnum-box input {
+  width: 40%;
+}
+.comfirm-box {
+  text-align: center;
+}
+.comfirm-box textarea {
+  width: 98%;
+  margin: 0 auto;
+}
+.comfirm-box input {
+  display: inline-block;
+  width: 40%;
+  margin: 0 1% 16px;
+  height: 48px;
+  background: #5796ad;
+  color: #fff;
+  border: none;
+}
+.comfirm-box p,
+.comfirm-box span {
+  position: relative;
+  font-size: 16px;
+}
+.dot-text {
+  padding-top: 0.5em;
+  background-position: top left -2px;
+  background-repeat: repeat-x;
+  background-size: 1.3em 0.3em;
+  background-image: -webkit-radial-gradient(
+    0.15em 0.15em at center center,
+    orange,
+    orange 100%,
+    transparent
+  );
+  background-image: radial-gradient(
+    0.15em 0.15em at center center,
+    orange,
+    orange 100%,
+    transparent
+  );
+}
+.attention-box {
+  text-align: left;
+  width: 90%;
+  margin: 0 auto;
+}
+.attention-box p {
+  line-height: 2.2rem;
+}
+.attention-box p span {
+  font-weight: bold;
+}
+.btn-kounyu {
+  text-align: center;
+  margin: 32px 0;
+}
+.btn-kounyu input {
+  background: #ea5506;
+  border: none;
+  height: 48px;
+  color: #fff;
+}
+.approve-check {
+  font-size: 18px;
+  font-weight: bold;
+}
+.approve-check input {
+  background: #eee;
+  border: solid 1px #333;
+  width: 24px;
+  height: 24px;
+}
+/* スマホ */
+@media only screen and (max-width: 599px) {
+  .inputbox {
+    display: block;
+    width: 98%;
   }
-  .order-box input,.order-box select{
-    height:40px;
-    font-size: 24px;
-    padding-left: 10px;
-  }
-  .order-box h3{
-    font-weight: bold;
-    background: linear-gradient(transparent 60%, #a8c5e7 60%);
-    font-size: 20px;
-    margin-bottom: 20px;
+  .kakeru {
+    display: block;
+    width: 100%;
     text-align: center;
   }
-  .order-box h5{
-    font-size:16px;
-    margin: 16px 0 8px;
+  .comfirm-box input {
+    display: block;
+    width: 98%;
   }
-  .ordrecon{
-    margin:40px 0;
-  }
-  .inputsize-box ul{
-    font-size:14px;
-    margin: 0;
-    padding: 8px 0 8px 16px;
-  }
-  .inputsize-box span{
-    font-weight: bold;
-    margin-right: 8px;
-  }
-  .inner-boxs{
-    background:#e3e3e3;
-    margin:8px 2%;
-    padding:16px;
-    text-align: center;
-  }
-  .inputbox{
-    display: inline-block;
-    width:45%;
-    margin: 0;
-    padding: 0;
-  }
-  .kakeru{
-    display: inline-block;
-    width:6%;
-    margin: 0;
-    padding: 0;
-  }
-  .inputthick-box select{
-    width:40%;
-  }
-  .inputnum-box input{
-    width:40%;
-  }
-  .comfirm-box{
-    text-align: center;
-  }
-  .comfirm-box textarea{
-    width:98%;
-    margin:0 auto;
-  }
-  .comfirm-box input{
-    display: inline-block;
-    width:40%;
-    margin:0 1% 16px;
-    height:48px;
-    background: #5796ad;
-    color:#FFF;
-    border:none;
-  }
-  .comfirm-box p,.comfirm-box span{
-    position: relative;
-    font-size: 16px;
-  }
-  .dot-text{padding-top: .5em;
-    background-position: top left -2px;
-    background-repeat: repeat-x;
-    background-size: 1.3em .3em;
-    background-image: -webkit-radial-gradient(.15em .15em at center center,orange,orange 100%,transparent);
-    background-image: radial-gradient(.15em .15em at center center,orange,orange 100%,transparent);
-  }
-  .attention-box{
-    text-align: left;
-    width:90%;
-    margin:0 auto;
-  }
-  .attention-box p{
-    line-height:2.2rem;
-  }
-  .attention-box p span{
-      font-weight: bold;
-    }
-  .btn-kounyu{
-    text-align: center;
-    margin:32px 0;
-  }
-  .btn-kounyu input{
-    background: #ea5506;
-    border:none;
-    height:48px;
-    color:#FFF;
-  }
-  .approve-check{
-    font-size:18px;
-    font-weight: bold;
-  }
-  .approve-check input{
-    background:#eee;
-    border:solid 1px #333;
-    width:24px;
-    height:24px;
-  }
-  /* スマホ */
-  @media only screen and (max-width:599px) {
-    .inputbox{
-      display: block;
-      width:98%;
-    }
-    .kakeru{
-      display: block;
-      width:100%;
-      text-align: center;
-    }
-    .comfirm-box input{
-      display: block;
-      width:98%;
-    }
-  }
-  
+}
